@@ -1,4 +1,5 @@
 [先点击查看demo](http://zhangchen2397.github.io/infiniteScrollPage/demo/) (建议扫描下方二维码手机上体验效果更佳)
+
 ![qr code](http://zhangchen2397.github.io/infiniteScrollPage/demo/images/qrcode.png)
 
 ###组件简介
@@ -72,7 +73,7 @@ this.defaultConfig = {
  ```
 
 ###基本html结构
-```javascript
+```html
 <div id="container">
     <div class="con-list-wrap"></div>
     <div class="auto-loading">加载中...</div>
