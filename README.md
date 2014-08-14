@@ -1,4 +1,4 @@
-[先点击查看demo][http://zhangchen2397.github.io/infiniteScrollPage/demo/](建议扫描下方二维码手机上体验效果更佳)
+[先点击查看demo](http://zhangchen2397.github.io/infiniteScrollPage/demo/) (建议扫描下方二维码手机上体验效果更佳)
 ![qr code](http://zhangchen2397.github.io/infiniteScrollPage/demo/images/qrcode.png)
 
 ###组件简介
@@ -12,7 +12,7 @@
 5. 加载成功或失败派发相应事件，相互解耦，灵活调用
 
 ###配置参数说明
-```
+```javascript
 this.defaultConfig = {
     /**
      * el {string|jq object} 外层容器，可为字符串或jq对象
@@ -60,6 +60,7 @@ this.defaultConfig = {
 ```
 
 ###对外调用接口及自定义事件
+```javascript
  /**
  * 对外调用接口及自定义事件
  * @method ajaxData 请求数据接口
@@ -68,9 +69,10 @@ this.defaultConfig = {
  * @customEvent ajasFinalError 尝试3次重新请求后依然失败事件
  *
  */
+ ```
 
 ###基本html结构
-```
+```javascript
 <div id="container">
     <div class="con-list-wrap"></div>
     <div class="auto-loading">加载中...</div>
@@ -78,7 +80,7 @@ this.defaultConfig = {
 </div>
 ```
 ###组件初始化及使用
-```
+```javascript
 ( function() {
     var Isp = infiniteScrollPage;
 
