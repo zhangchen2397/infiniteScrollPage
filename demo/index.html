@@ -26,8 +26,7 @@
             var Isp = infiniteScrollPage;
             infiniteScrollIns = Isp.createInfinteScrollPage( {
                 ajaxUrl: './api.html',
-                maxAutoPage: 3,
-                debug: true
+                maxAutoPage: 3
             } );
 
             $.bind( infiniteScrollIns, 'ajaxSuccess', function( event ) {

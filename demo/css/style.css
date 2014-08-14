@@ -417,7 +417,8 @@ strong {
   color: #999;
 }
 .padd1 {
-  margin: 15px 0 25px;
+  max-width: 640px;
+  margin: 15px auto 25px;
 }
 /* 链接按钮 */
 .btn_lk {
