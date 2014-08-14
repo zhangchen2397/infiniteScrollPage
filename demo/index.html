@@ -24,19 +24,24 @@
     <script>
         ( function() {
             var Isp = infiniteScrollPage;
+
+            //初始化组件
             infiniteScrollIns = Isp.createInfinteScrollPage( {
                 ajaxUrl: './api.html',
                 maxAutoPage: 5
             } );
 
+            //监听数据请求成功事件，用于拼接模板
             $.bind( infiniteScrollIns, 'ajaxSuccess', function( event ) {
                 this.conListWrap.append( event.data );
             } );
 
+            //监听数据请求失败事件
             $.bind( infiniteScrollIns, 'ajaxError', function() {
-                //可用于打错误日志统计或错误提示
+                //可用于打错误日志统计
             } );
 
+            //监听重试3次后依然数据请求失败事件，用于给出错误信息提示
             $.bind( infiniteScrollIns, 'ajaxFinalError', function() {
                 //可用于打错误日志统计或错误提示
                 alert( '加载数据失败，请重试' );
