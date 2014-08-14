@@ -166,37 +166,29 @@
                 timeout: config.timeout,
                 dataType: config.dataType,
                 success: function( data ) {
-                    var successCb = function() {
-                        $.trigger( me, 'ajaxSuccess', [ {
-                            data: data
-                        } ] );
+                    $.trigger( me, 'ajaxSuccess', [ {
+                        data: data
+                    } ] );
 
-                        me.autoLoading.hide();
+                    me.autoLoading.hide();
 
-                        me.curPage++;
-                        me.reTryNum = 0;
+                    me.curPage++;
+                    me.reTryNum = 0;
 
-                        //如果当前页等于最大自动加载页时显示手动加载更多按钮
-                        if ( me.curPage > config.maxAutoPage ) {
-                            me.clickLoading.show();
-                            me.canAutoAjaxData = false;
+                    //如果当前页等于最大自动加载页时显示手动加载更多按钮
+                    if ( me.curPage > config.maxAutoPage ) {
+                        me.clickLoading.show();
+                        me.canAutoAjaxData = false;
 
-                            if ( curMod ) {
-                                $.unbind( curMod, 'scroll', this.scrollCb );
-                            } else {
-                                $( window ).unbind( 'scroll', this.scrollCb );
-                            }
-                            
+                        if ( curMod ) {
+                            $.unbind( curMod, 'scroll', this.scrollCb );
                         } else {
-                            me.canAutoAjaxData = true;
-                            me.autoLoading.show();
+                            $( window ).unbind( 'scroll', this.scrollCb );
                         }
-                    };
-
-                    if ( config.debug ) {
-                        setTimeout( $.proxy( successCb, me ), 500 ); 
+                        
                     } else {
-                        successCb();
+                        me.canAutoAjaxData = true;
+                        me.autoLoading.show();
                     }
                 },
                 error: function() {
