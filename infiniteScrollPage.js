@@ -3,7 +3,7 @@
  * 自定义最大自动加载页
  * 当达到最大自动加载页时，手动点击加载更多
  * 请求数据失败时自动尝试3次重新请求
- * @author samczhang@tencent.com
+ * @author zhangchen2397@126.com
  * --------------------------------------
  *
  * 基本html结构，为了方便定义UI，所有id及class均可自定义
@@ -22,8 +22,16 @@
  *
  */
 
-define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
-    var infiniteScroll = function( config ) {
+( function( root, factory ) {
+    if ( typeof define === 'function' ) {
+        define( 'infiniteScrollPage', [ 'jqmobi' ], function( $ ) {
+            return factory( root, $ );
+        } );
+    } else {
+        root.infiniteScrollPage = factory( root, root.$ );
+    }
+} )( window, function( root, $ ) {
+    var infiniteScrollPage = function( config ) {
         this.defaultConfig = {
             /**
              * el {string|jq object} 外层容器，可为字符串或jq对象
@@ -45,8 +53,8 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
 
             /**
              * maxAutoPage {number} 最大自动加载页数
-             * 当maxAUtoPage配置为0，则不自动加载分页
-             * 当maxAutoPage配置为总页数时，不显示手动分页加载，全部自动加载
+             *  - 当当前页数超过maxAutoPage时，显示手动加载更多按钮
+             *  - 当maxAutoPage为0时，不自动加载分页，显示手动加载更多
              * offsetHeight {number} 自动加载时机，离页底像素距离
              */
             maxAutoPage: 5,
@@ -55,9 +63,11 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
             /**
              * ajax请求参数配置，其它参数按默认值
              * timeout {number}  请求超时时间
-             * dataType {string} 请求类型，如非jsonp则为ajax请求
+             * dataType {string} 请求类型
+             *  - 默认值为text/html，为普通的ajax请求，后端返回json格式数据
+             *  - 当dataType为jsonp时，为jsonp请求
              */
-            timeout: 3000,
+            timeout: 5000,
             dataType: 'text/html',
 
             /**
@@ -73,7 +83,7 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
         this.init.call( this );
     };
 
-    $.extend( infiniteScroll.prototype, {
+    $.extend( infiniteScrollPage.prototype, {
         init: function() {
             /**
              * canAutoAjaxData 用于请求中加锁，上一请求未结束不用进行下一请求
@@ -142,7 +152,7 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
                 joinSbl = '?';
 
             if ( config.ajaxUrl.indexOf( '?' ) > -1 ) {
-                joinSbl = '&'
+                joinSbl = '&';
             }
 
             ajaxUrl += joinSbl + config.pagePara + '=' + this.curPage + '&ver=' + +( new Date() );
@@ -156,7 +166,7 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
                 timeout: config.timeout,
                 dataType: config.dataType,
                 success: function( data ) {
-                    setTimeout( function() {
+                    var successCb = function() {
                         $.trigger( me, 'ajaxSuccess', [ {
                             data: data
                         } ] );
@@ -181,7 +191,13 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
                             me.canAutoAjaxData = true;
                             me.autoLoading.show();
                         }
-                    }, 500 );
+                    };
+
+                    if ( config.debug ) {
+                        setTimeout( $.proxy( successCb, me ), 500 ); 
+                    } else {
+                        successCb();
+                    }
                 },
                 error: function() {
                     me.reTryNum++;
@@ -199,14 +215,12 @@ define( 'infiniteScroll', [ 'jqmobi' ], function( $ ) {
     } );
 
     return {
-        //需要通过new关键字实例出一个infiniteScroll
-        infiniteScroll: infiniteScroll,
+        //需要通过new关键字实例出一个infiniteScrollPage
+        infiniteScrollPage: infiniteScrollPage,
 
         //直接通过函数调用，内部处理实例过程
-        createInfinteScroll: function( config ) {
-            return new infiniteScroll( config );
+        createInfinteScrollPage: function( config ) {
+            return new infiniteScrollPage( config );
         }
     }
-
 } );
-

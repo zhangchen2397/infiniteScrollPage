@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+    <title>无限下拉分页组件</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="./css/style.css"/>
+</head>
+<body>
+    <div id="container">
+        <div class="module_area padd1">
+            <div class="con-list-wrap">
+                
+            </div>
+            <div class="auto-loading btn_lk" style="display:none;">加载中...</div>
+            <div class="click-loading btn_lk" style="display:none;">点击加载更多</div>
+        </div>
+    </div>
+
+    <script src="../jqmobi.js"></script>
+    <script src="../infiniteScrollPage.js"></script>
+
+    <script>
+        ( function() {
+            var Isp = infiniteScrollPage;
+            infiniteScrollIns = Isp.createInfinteScrollPage( {
+                ajaxUrl: './api.html',
+                maxAutoPage: 3,
+                debug: true
+            } );
+
+            $.bind( infiniteScrollIns, 'ajaxSuccess', function( event ) {
+                this.conListWrap.append( event.data );
+            } );
+
+            $.bind( infiniteScrollIns, 'ajaxError', function() {
+                //可用于打错误日志统计或错误提示
+            } );
+
+            $.bind( infiniteScrollIns, 'ajaxFinalError', function() {
+                //可用于打错误日志统计或错误提示
+            } );
+        } )();
+    </script>
+</body>
+</html>
