@@ -113,7 +113,7 @@
                 config = this.config,
                 curMod = config.curMod;
 
-            //将scroll事件缓存，主要为了解决绑定
+            //将scroll事件缓存，主要为了解除绑定
             this.scrollCb = $.proxy( this._scrollCb, this );
 
             if ( curMod ) {
@@ -181,9 +181,9 @@
                         me.canAutoAjaxData = false;
 
                         if ( curMod ) {
-                            $.unbind( curMod, 'scroll', this.scrollCb );
+                            $.unbind( curMod, 'scroll', me.scrollCb );
                         } else {
-                            $( window ).unbind( 'scroll', this.scrollCb );
+                            $( window ).unbind( 'scroll', me.scrollCb );
                         }
                         
                     } else {
